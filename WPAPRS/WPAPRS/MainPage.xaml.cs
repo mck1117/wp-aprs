@@ -46,7 +46,12 @@ namespace WPAPRS
 
             System.Diagnostics.Debug.WriteLine("Send packet " + packet.ToString());
 
-            audio.EnqueuePacketForTransmission(packet);
+            //audio.EnqueuePacketForTransmission(packet);
+        }
+        
+        private void settingsAppBarIcon_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/SettingsPage.xaml", UriKind.Relative));
         }
     }
 }
