@@ -23,13 +23,11 @@ using System;
 namespace WPAPRS
 {
     public class Afsk1200Modulator : PacketModulator
-    //implements HalfduplexSoundcardClient 
     {
 
         private float phase_inc_f0, phase_inc_f1;
         private float phase_inc_symbol;
 
-        //private Packet packet; // received packet
         private int sample_rate;
 
         public Afsk1200Modulator(int sample_rate)
@@ -40,10 +38,6 @@ namespace WPAPRS
             phase_inc_symbol = (float)(2.0 * Math.PI * 1200.0 / sample_rate);
         }
 
-        //private float phase_f0, phase_f1;	
-        //private int t; // running sample counter
-
-        //private float f1cos, f1sin, f0cos, f0sin;
 
         /**************************/
         /*** Packet Transmitter ***/

@@ -27,11 +27,14 @@ namespace WPAPRS
 
         public APRSAudioStreamSource(int sampleRate)
         {
+            // Set the sample rate
+            this.sampleRate = sampleRate;
+            
+            // Set up our packet modulator
             modulator = new Afsk1200Modulator(sampleRate);
 
             mediaSampleAttributes = new Dictionary<MediaSampleAttributeKeys, string>();
 
-            this.sampleRate = sampleRate;
         }
 
         protected override void OpenMediaAsync()
@@ -135,12 +138,14 @@ namespace WPAPRS
                 0,
                 BufferSize, timestamp, mediaSampleAttributes));
 
+            // Step time forward
             timestamp += BufferSamples * 10000000L / sampleRate;
         }
 
 
         protected override void SeekAsync(long seekToTime)
         {
+            // We don't have anything to do here, as our audio is generated in real time.
             ReportSeekCompleted(seekToTime);
         }
 
@@ -149,13 +154,16 @@ namespace WPAPRS
             mediaStreamDescription = null;
         }
 
+
         protected override void SwitchMediaStreamAsync(System.Windows.Media.MediaStreamDescription mediaStreamDescription)
         {
+            // This shouldn't ever get called.
             throw new NotImplementedException();
         }
 
         protected override void GetDiagnosticAsync(MediaStreamSourceDiagnosticKind diagnosticKind)
         {
+            // This also shouldn't ever get called.
             throw new NotImplementedException();
         }
 
@@ -166,22 +174,27 @@ namespace WPAPRS
                 throw new ArgumentNullException("Cannot transmit a null packet");
             }
 
-            int n = 0;
-
+            // Give the modulator the packet to modulate
             modulator.PrepareToTransmit(packet);
 
+            // The bytes that form this packet
             Queue<byte> packetData = new Queue<byte>();
 
             float[] buf = modulator.GetTxSamplesBuffer();
 
+            int n = 0;
+
+            // While we have more samples to read
             while ((n = modulator.GetSamples()) > 0)
             {
+                // Read n samples into the queue
                 for (int i = 0; i < n; i++)
                 {
                     packetData.Enqueue((byte)(buf[i] * 127 + 128));
                 }
             }
-
+    
+            // Enqueue the current packet into the queue of packets to play
             packetDataQueue.Enqueue(packetData);
         }
     }
