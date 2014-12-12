@@ -321,7 +321,7 @@ namespace WPAPRS
             {
                 char c = (char)payload[i];
                 if (c >= 0x20 && c <= 0x7E) builder.Append(c);
-                else builder.Append("\\x" + payload[i].ToString("X2"));
+                //else builder.Append("\\x" + payload[i].ToString("X2"));
                 //else builder.Append(String.format("\\x%02x", payload[i]));
             }
             /*
@@ -335,9 +335,12 @@ namespace WPAPRS
             builder.Append("]");
             return builder.ToString();
         }
+        
+
 
         private static void assert(bool test)
         {
+            // This is a bandaid as this class is a java port.
             if (!test)
             {
                 throw new Exception("assert fail");
