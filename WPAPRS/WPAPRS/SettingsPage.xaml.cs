@@ -15,6 +15,9 @@ namespace WPAPRS
         public SettingsPage()
         {
             InitializeComponent();
+
+            txtCallsign.Text = AppSettings.Callsign;
+            txtCallsign_TextChanged(txtCallsign, null);
         }
 
 
@@ -33,6 +36,8 @@ namespace WPAPRS
             // Update the validity indicator
             bool isValid = IsValidCallsign(txtCallsign.Text);
             txtCallsignValid.Visibility = isValid ? Visibility.Collapsed : Visibility.Visible;
+
+            btnSave.IsEnabled = isValid;
         }
 
         private void cancelAppBarIcon_Click(object sender, EventArgs e)
@@ -51,7 +56,8 @@ namespace WPAPRS
         private void saveAppBarIcon_Click(object sender, EventArgs e)
         {
             /// TODO: save the settings here.
-
+            AppSettings.Callsign = txtCallsign.Text;
+            AppSettings.Save();
 
             // Return to previous after saving settings.
             if (NavigationService.CanGoBack)

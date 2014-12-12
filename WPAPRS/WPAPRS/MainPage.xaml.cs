@@ -41,7 +41,7 @@ namespace WPAPRS
         {
             Geoposition pos = args.Position;
 
-            Packet packet = new APRSPacket("KG7EJP", "AWP001", new String[] { "WIDE1-1", "WIDE2-2" },
+            Packet packet = new APRSPacket(AppSettings.Callsign, "AWP001", new String[] { "WIDE1-1", "WIDE2-2" },
                 APRSPacket.PositionIcons.Phone, pos.Coordinate, " Acc: " + pos.Coordinate.Accuracy + ", Altacc: " + pos.Coordinate.AltitudeAccuracy + ", Type: " + pos.Coordinate.PositionSource);
 
             System.Diagnostics.Debug.WriteLine("Send packet " + packet.ToString());
